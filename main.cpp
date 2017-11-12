@@ -1,10 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 
 using namespace std;
 
 string line, orderRotors, key, sboard1, sboard2, output;
 int noReflector;
+bool ifrot1=false, ifrot2=false;
 
 char alphabet[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 char rotors[5][27]=
@@ -76,79 +78,101 @@ string switchboard(string lin)
 void rotate1(int &R, int &M)
 {
 
+    R=mod(R+1);
     int position=orderRotors[orderRotors.size()-1]-49;
+    int position2=orderRotors[orderRotors.size()-2]-49;
 
-    if(position==0)
+    if((position==0)&&(alphabet[R])=='R')
     {
-        if((alphabet[R])=='R') M=mod(M+1);
+        if(!ifrot1)M=mod(M+1);
+        if((position2==0)&&(alphabet[M]=='Q')) ifrot2=true;
+        else if((position2==1)&&(alphabet[M]=='E')) ifrot2=true;
+        else if((position2==2)&&(alphabet[M]=='V')) ifrot2=true;
+        else if((position2==3)&&(alphabet[M]=='J')) ifrot2=true;
+        else if((position2==4)&&(alphabet[M]=='Z')) ifrot2=true;
     }
-    else if(position==1)
+    else if((position==1)&&(alphabet[R])=='F')
     {
-        if((alphabet[R])=='F') M=mod(M+1);
+        if(!ifrot1)M=mod(M+1);
+        if((position2==0)&&(alphabet[M]=='Q')) ifrot2=true;
+        else if((position2==1)&&(alphabet[M]=='E')) ifrot2=true;
+        else if((position2==2)&&(alphabet[M]=='V')) ifrot2=true;
+        else if((position2==3)&&(alphabet[M]=='J')) ifrot2=true;
+        else if((position2==4)&&(alphabet[M]=='Z')) ifrot2=true;
     }
-    else if(position==2)
+    else if((position==2)&&(alphabet[R])=='W')
     {
-        if((alphabet[R])=='W') M=mod(M+1);
+        if(!ifrot1)M=mod(M+1);
+        if((position2==0)&&(alphabet[M]=='Q')) ifrot2=true;
+        else if((position2==1)&&(alphabet[M]=='E')) ifrot2=true;
+        else if((position2==2)&&(alphabet[M]=='V')) ifrot2=true;
+        else if((position2==3)&&(alphabet[M]=='J')) ifrot2=true;
+        else if((position2==4)&&(alphabet[M]=='Z')) ifrot2=true;
     }
-    else if(position==3)
+    else if((position==3)&&(alphabet[R])=='K')
     {
-        if((alphabet[R])=='K') M=mod(M+1);
+        if(!ifrot1)M=mod(M+1);
+        if((position2==0)&&(alphabet[M]=='Q')) ifrot2=true;
+        else if((position2==1)&&(alphabet[M]=='E')) ifrot2=true;
+        else if((position2==2)&&(alphabet[M]=='V')) ifrot2=true;
+        else if((position2==3)&&(alphabet[M]=='J')) ifrot2=true;
+        else if((position2==4)&&(alphabet[M]=='Z')) ifrot2=true;
     }
-    else if(position==4)
+    else if((position==4)&&(alphabet[R])=='A')
     {
-        if((alphabet[R])=='A') M=mod(M+1);
+        if(!ifrot1)M=mod(M+1);
+        if((position2==0)&&(alphabet[M]=='Q')) ifrot2=true;
+        else if((position2==1)&&(alphabet[M]=='E')) ifrot2=true;
+        else if((position2==2)&&(alphabet[M]=='V')) ifrot2=true;
+        else if((position2==3)&&(alphabet[M]=='J')) ifrot2=true;
+        else if((position2==4)&&(alphabet[M]=='Z')) ifrot2=true;
     }
-
-
 }
 
-bool rotate2(int &M, int &L)
+void rotate2(int &M, int &L)
 {
     int position=orderRotors[orderRotors.size()-2]-49;
-
     if(position==0)
     {
-        if((alphabet[M])=='R')
+        if((alphabet[M])=='Q')
         {
-            //M=mod(M+1);
+            M=mod(M+1);
             L=mod(L+1);
         }
-
     }
     else if(position==1)
     {
-        if((alphabet[M])=='F')
+        if((alphabet[M])=='E')
         {
-            //M=mod(M+1);
+            M=mod(M+1);
             L=mod(L+1);
         }
     }
     else if(position==2)
     {
-        if((alphabet[M])=='W')
+        if((alphabet[M])=='V')
         {
-            //M=mod(M+1);
+            M=mod(M+1);
             L=mod(L+1);
         }
     }
     else if(position==3)
     {
-        if((alphabet[M])=='K')
+        if((alphabet[M])=='J')
         {
-            //M=mod(M+1);
+            M=mod(M+1);
             L=mod(L+1);
         }
     }
     else if(position==4)
+        if((alphabet[M])=='Z')
     {
-        if((alphabet[M])=='A')
         {
-            //M=mod(M+1);
+            M=mod(M+1);
             L=mod(L+1);
         }
     }
 }
-
 
 /// Glowny szyfrator
 string crypt(void)
@@ -157,78 +181,71 @@ string crypt(void)
     int L=lp(key[0]);
     int M=lp(key[1]);
     int R=lp(key[2]);
-
-    cout<<endl<<alphabet[L]<<L<<" L"<<endl;
-    cout<<alphabet[M]<<M<<"  M"<<endl;
-    cout<<alphabet[R]<<R<<" R"<<endl;
-    bool g=false,g2=false;
-
     char a,b,c,f,ref;
-    int  d,e;
+    int  d,e,i=0;
     line=switchboard(line);
-    cout<<endl;
-    for (int i=0;i<line.size();i++)
+
+    do
     {
         int letter=lp(line[i]);
 
+        if(i==0)
+        {
+            if((orderRotors[orderRotors.size()-2]-49==0)&&(alphabet[M]=='Q'))
+            {
+                rotate2(M,L);
+                ifrot1=true;
+            }
+            else if((orderRotors[orderRotors.size()-2]-49==1)&&(alphabet[M]=='E'))
+            {
+                rotate2(M,L);
+                ifrot1=true;
+            }
+            else if((orderRotors[orderRotors.size()-2]-49==2)&&(alphabet[M]=='V'))
+            {
+                rotate2(M,L);
+                ifrot1=true;
+            }
+            else if((orderRotors[orderRotors.size()-2]-49==3)&&(alphabet[M]=='J'))
+            {
+                rotate2(M,L);
+                ifrot1=true;
+            }
+            else if((orderRotors[orderRotors.size()-2]-49==4)&&(alphabet[M]=='Z'))
+            {
+                rotate2(M,L);
+                ifrot1=true;
+            }
+        }
+
+
         /// Obrot rotorow
-        //cout<<rotors[0][mod(R+letter)]<<" R"<<endl;
-        //cout<<orderRotors[orderRotors.size()-1]-49<<" TEST"<<endl;
-
-        //if(R==22) M=mod(M+1);
-        //cout<<alphabet[L]<<alphabet[M]<<alphabet[R]<<" - Przed"<<endl;
-        R=mod(R+1);
-        //if(L==16)M=mod(M+1);
-        //if(R==22)M=mod(M+1);
-        //if(M==5)L=mod(L+1);
-        //if(g==true){M=mod(M+1);L=mod(L+1);g2=true;}
         rotate1(R,M);
-        //cout<<endl<<alphabet[M]<<M<<" pierwsze"<<endl;
-        rotate2(M,L);
 
-        cout<<endl<<alphabet[letter];
-        cout<<endl<<alphabet[L]<<L<<" L"<<endl;
-        cout<<alphabet[M]<<M<<"  M"<<endl;
-        cout<<alphabet[R]<<R<<" R"<<endl;
-        //cout<<endl<<alphabet[M]<<M<<" pierwsze"<<endl;
-       // cout<<M<<" pierwsze"<<endl;
-        //if(M==5) {M=mod(M+1);g=false;}
-        //if(R==22) {M=mod(M+1); g=true;}
-        //if(g==true) {M=mod(M+1);L=mod(L+1);g=false;}
-
-        //cout<<M<<" drugie"<<endl;
-
-        //cout<<alphabet[L]<<alphabet[M]<<alphabet[R]<<" - Po"<<endl;
-
-        //cout<<R<<" -R1"<<endl;
-        //cout<<letter<<" -letter"<<endl;
-        //cout<<rotors[1][R];
-        //cout<<rotors[orderRotors[orderRotors.size()-1]-49][25];
-
-        // Pass through rotors
+        /// Przejscie przez rotory
         a = rotors[orderRotors[orderRotors.size()-1]-49][mod(R + letter)];
         b = rotors[orderRotors[orderRotors.size()-2]-49][mod(M + lp(a) - R)];
         c = rotors[orderRotors[orderRotors.size()-3]-49][mod(L + lp(b) - M)];
 
-        //cout<<endl<<a<<" - a"<<endl;
-        //cout<<b<<" - b"<<endl;
-        //cout<<c<<" - c"<<endl;
-
-        // Pass through reflector
+        /// Reflektor
         ref = reflector[noReflector][mod(lp(c) - L)];
 
-        // Inverse rotor pass
+        /// Ponowne przejscie przez rotory
         d = mod(pos(rotors[orderRotors[orderRotors.size()-3]-49], alphabet[mod(lp(ref) + L)]) - L);
         e = mod(pos(rotors[orderRotors[orderRotors.size()-2]-49], alphabet[mod(d + M)]) - M);
         f = alphabet[mod(pos(rotors[orderRotors[orderRotors.size()-1]-49], alphabet[mod(e + R)]) - R)];
+        output+=f;
 
-        //cout<<d<<" - d"<<endl;
-        //cout<<e<<" - e"<<endl;
-        //cout<<f<<" - f"<<endl;
-        //cout<<output;
+        ///obrot rotora 2 i 3 w przypadku spotkania zeba na rotorze 2
+        if(ifrot2)
+        {
+            rotate2(M,L);
+            ifrot2=false;
+        }
+        ifrot1=false;
+    i++;
+  }while(i<line.size());
 
-        output += f;
-  }
   output=switchboard(output);
   return output;
 }
@@ -252,13 +269,13 @@ int main ()
 {
     start();
     string path="tst.txt";
-    //cin>>path;
+    cin>>path;
     openfile(path);
     cout<<endl<<endl<<orderRotors<<" - Kolejnosc rotorow"<<endl;
     cout<<key<<" - Klucz szyfrujacy"<<endl<<endl;
-    cout<<"Wejscie: "<<line;
+    cout<<"Wejscie: "<<line<<endl;
     cout<<"Wyjscie: "<<crypt()<<endl<<endl;
 
-    //system("pause");
+    system("pause");
   return 0;
 }
