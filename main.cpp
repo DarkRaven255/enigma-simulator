@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string line, orderRotors, key, sboard1, sboard2, output;
+string line, line2, orderRotors, key, sboard1, sboard2, output, path;
 int noReflector;
 bool ifrot1=false, ifrot2=false;
 
@@ -26,7 +26,7 @@ char reflector[4][27]=
 };
 
 
-void openfile(string path)
+void openfile()
 {
     ifstream fin;
     fin.open(path);
@@ -39,6 +39,7 @@ void openfile(string path)
         fin>>sboard1;
         fin>>sboard2;
         noReflector--;
+        line2=line;
     }
     else cout<<"Blad odczytu pliku";
 }
@@ -75,6 +76,7 @@ string switchboard(string lin)
     return lin;
 }
 
+///Rotacja rotora 1 i 2
 void rotate1(int &R, int &M)
 {
 
@@ -129,6 +131,7 @@ void rotate1(int &R, int &M)
     }
 }
 
+///Rotacja rotora 2 i 3
 void rotate2(int &M, int &L)
 {
     int position=orderRotors[orderRotors.size()-2]-49;
@@ -175,26 +178,30 @@ void rotate2(int &M, int &L)
 }
 
 /// Glowny szyfrator
-string crypt(void)
+void crypt(void)
 {
-    ///Ustawienie klucza
+    ///Ustawienie klucza podanego przez uzytkownika
     int L=lp(key[0]);
     int M=lp(key[1]);
     int R=lp(key[2]);
     char a,b,c,f,ref;
     int  d,e,i=0;
+
+    ///Aktywacja lacznicy kablowej (zamiana odpowiednich liter)
     line=switchboard(line);
 
+    ///Glowna petla wykonawcza
     do
     {
         int letter=lp(line[i]);
 
+        ///Obrot rotora 2 i 3, w przypadku, gdy rotor M znajduje sie na zebie w pozycji poczatkowej
         if(i==0)
         {
             if((orderRotors[orderRotors.size()-2]-49==0)&&(alphabet[M]=='Q'))
             {
                 rotate2(M,L);
-                ifrot1=true;
+                ifrot1=true; /// Zmienna blokujaca dodatkowy drugi obrot rotora M przez rotor R w przypadku zeba w pozycji poczatkowej rotora M
             }
             else if((orderRotors[orderRotors.size()-2]-49==1)&&(alphabet[M]=='E'))
             {
@@ -219,7 +226,7 @@ string crypt(void)
         }
 
 
-        /// Obrot rotorow
+        /// Obrot rotora R i w przypadku spelniena warunku - rotora M
         rotate1(R,M);
 
         /// Przejscie przez rotory
@@ -230,13 +237,13 @@ string crypt(void)
         /// Reflektor
         ref = reflector[noReflector][mod(lp(c) - L)];
 
-        /// Ponowne przejscie przez rotory
+        /// Ponowne przejscie przez rotory (odwrotnie)
         d = mod(pos(rotors[orderRotors[orderRotors.size()-3]-49], alphabet[mod(lp(ref) + L)]) - L);
         e = mod(pos(rotors[orderRotors[orderRotors.size()-2]-49], alphabet[mod(d + M)]) - M);
         f = alphabet[mod(pos(rotors[orderRotors[orderRotors.size()-1]-49], alphabet[mod(e + R)]) - R)];
         output+=f;
 
-        ///obrot rotora 2 i 3 w przypadku spotkania zeba na rotorze 2
+        ///obrot rotora M i L w przypadku spotkania zeba na rotorze M podczas obracania rotora R
         if(ifrot2)
         {
             rotate2(M,L);
@@ -246,8 +253,8 @@ string crypt(void)
     i++;
   }while(i<line.size());
 
+  ///Aktywacja lacznicy kablowej (zamiana odpowiednich liter)
   output=switchboard(output);
-  return output;
 }
 
 void start(void)
@@ -265,17 +272,36 @@ void start(void)
     cout<<"Wprowadz sciezke do pliku przygotowanego wedlug powyzszego schematu: ";
 }
 
+void export_result(void)
+{
+    ofstream fout;
+    fout.open("wynik.txt");
+    if(fout.good())
+    {
+        cout<<endl<<endl<<orderRotors<<" - Kolejnosc rotorow"<<endl;
+        cout<<key<<" - Klucz szyfrujacy"<<endl;
+        cout<<noReflector+1<<" - Numer reflektora"<<endl<<endl;
+        cout<<"Wejscie: "<<line2<<endl;
+        cout<<"Wyjscie: "<<output<<endl<<endl;
+
+        fout<<orderRotors<<" - Kolejnosc rotorow"<<endl;
+        fout<<key<<" - Klucz szyfrujacy"<<endl;
+        fout<<noReflector+1<<" - Numer reflektora"<<endl<<endl;
+        fout<<"Wejscie: "<<line2<<endl;
+        fout<<"Wyjscie: "<<output<<endl;
+    }
+    else cout<<"Blad zapisu pliku!";
+    cout<<"Zapisano wynik w pliku wynik.txt"<<endl;
+    fout.close();
+}
+
 int main ()
 {
     start();
-    string path="tst.txt";
     cin>>path;
-    openfile(path);
-    cout<<endl<<endl<<orderRotors<<" - Kolejnosc rotorow"<<endl;
-    cout<<key<<" - Klucz szyfrujacy"<<endl<<endl;
-    cout<<"Wejscie: "<<line<<endl;
-    cout<<"Wyjscie: "<<crypt()<<endl<<endl;
-
+    openfile();
+    crypt();
+    export_result();
     system("pause");
   return 0;
 }
