@@ -226,7 +226,7 @@ void crypt(void)
         }
 
 
-        /// Obrot rotora R i w przypadku spelniena warunku - rotora M
+        /// Obrot rotora R lub w przypadku spelniena warunku - rotora M
         rotate1(R,M);
 
         /// Przejscie przez rotory
