@@ -29,4 +29,16 @@
 # Executables
 *.exe
 *.out
-*.app
+
+Debug/vc141.pdb
+Debug/vc141.idb
+Debug/EnigmaSimulator.tlog/link.write.1.tlog
+Debug/EnigmaSimulator.tlog/link.read.1.tlog
+Debug/EnigmaSimulator.tlog/link.command.1.tlog
+Debug/EnigmaSimulator.tlog/EnigmaSimulator.lastbuildstate
+Debug/EnigmaSimulator.tlog/CL.write.1.tlog
+Debug/EnigmaSimulator.tlog/CL.read.1.tlog
+Debug/EnigmaSimulator.tlog/CL.command.1.tlog
+Debug/EnigmaSimulator.pdb
+Debug/EnigmaSimulator.log
+Debug/EnigmaSimulator.ilk
