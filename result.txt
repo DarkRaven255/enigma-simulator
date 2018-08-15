@@ -1,7 +1,0 @@
-Current settings:
-352 - order of rotors
-BAC - encrypting key
-1 - numer of reflector
-
-Input: QTT
-Output: AWD

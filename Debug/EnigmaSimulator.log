@@ -1,6 +1,0 @@
-﻿  EnigmaSimulator.cpp
-d:\onedrive\git projects\enigmasimulator\enigmasimulator\enigmasimulator.cpp(54): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\git projects\enigmasimulator\enigmasimulator\enigmasimulator.cpp(56): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\git projects\enigmasimulator\enigmasimulator\enigmasimulator.cpp(240): warning C4018: '<': signed/unsigned mismatch
-d:\onedrive\git projects\enigmasimulator\enigmasimulator\enigmasimulator.cpp(274): warning C4018: '<': signed/unsigned mismatch
-  EnigmaSimulator.vcxproj -> D:\OneDrive\Git Projects\EnigmaSimulator\EnigmaSimulator\Debug\EnigmaSimulator.exe

@@ -1,4 +1,0 @@
-﻿  stdafx.cpp
-  EnigmaSimulator.cpp
-d:\onedrive\git projects\enigmasimulator\enigmasimulator\enigmasimulator.cpp(48): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  EnigmaSimulator.vcxproj -> D:\OneDrive\Git Projects\EnigmaSimulator\EnigmaSimulator\x64\Debug\EnigmaSimulator.exe
